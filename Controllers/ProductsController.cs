@@ -1,0 +1,40 @@
+﻿using eCommerce.Data;
+using eCommerce.Entities;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+
+namespace eCommerce.Controllers
+{
+    [ApiController]
+    [Route("api/[controller]")]
+    public class ProductsController : ControllerBase
+    {
+        private readonly StoreContext context;
+        public ProductsController(StoreContext context)
+        {
+            this.context = context;
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
+        {
+            return await context.Products.ToListAsync();
+        }
+
+        [HttpGet("{id:int}")]
+        public async Task<ActionResult<Product>> GetProducts(int id)
+        {
+            var product = await context.Products.FindAsync(id);
+            if (product == null) return NotFound();
+            return product;
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<Product>> CreateProduct(Product product)
+        {
+            context.Products.Add(product);
+            await context.SaveChangesAsync();
+            return product;
+        }
+    }
+}
