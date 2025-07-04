@@ -1,4 +1,5 @@
-﻿using eCommerce.Entities;
+﻿using eCommerce.Config;
+using eCommerce.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace eCommerce.Data
@@ -6,5 +7,11 @@ namespace eCommerce.Data
     public class StoreContext(DbContextOptions options) : DbContext(options)
     {
         public DbSet<Product> Products { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(ProductConfiguration).Assembly);
+        }
     }
 }
