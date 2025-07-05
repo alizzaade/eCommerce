@@ -1,0 +1,15 @@
+﻿using eCommerce.Entities;
+
+namespace eCommerce.Interfaces
+{
+    public interface IProductRepository
+    {
+        Task<IReadOnlyCollection<Product>> GetProductsAsync();
+        Task<Product?> GetProductByIdAsync(int id);
+        void AddProduct(Product product);
+        void UpdateProduct(Product product);
+        void DeleteProduct(Product product);
+        bool ProductExists(Product product);
+        Task<bool> SaveChangesAsync(); 
+    }
+}
