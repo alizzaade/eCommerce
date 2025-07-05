@@ -9,7 +9,7 @@ namespace eCommerce.Interfaces
         void AddProduct(Product product);
         void UpdateProduct(Product product);
         void DeleteProduct(Product product);
-        bool ProductExists(Product product);
+        bool ProductExists(int id);
         Task<bool> SaveChangesAsync(); 
     }
 }
