@@ -16,6 +16,11 @@ namespace eCommerce.Data
             context.Products.Remove(product);
         }
 
+        public async Task<IReadOnlyList<string>> GetBrandsAsync()
+        {
+            return await context.Products.Select(x => x.Brand).Distinct().ToListAsync();
+        }
+
         public async Task<Product?> GetProductByIdAsync(int id)
         {
             return await context.Products.FindAsync(id);
@@ -24,6 +29,36 @@ namespace eCommerce.Data
         public async Task<IReadOnlyCollection<Product>> GetProductsAsync()
         {
             return await context.Products.ToListAsync();
+        }
+
+        public async Task<IReadOnlyCollection<Product>> GetProductsAsync(string? brand, string? type, string? sort)
+        {
+            var query = context.Products.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(brand)) {
+                query = query.Where(x => x.Brand == brand);
+            }
+
+            if (!string.IsNullOrWhiteSpace(type)) {
+                query = query.Where(x => x.Type == type);
+            }
+
+            if (!string.IsNullOrWhiteSpace(sort))
+            {
+                query = sort switch
+                {
+                    "asc" => query.OrderBy(x => x.Price),
+                    "desc" => query.OrderByDescending(x => x.Price),
+                    _ => query.OrderBy(x => x.Name)
+                };
+            }
+
+            return await query.ToListAsync();
+        }
+
+        public async Task<IReadOnlyList<string>> GetTypeAsync()
+        {
+            return await context.Products.Select(x => x.Type).Distinct().ToListAsync();
         }
 
         public bool ProductExists(int id)
