@@ -1,5 +1,6 @@
 ﻿using eCommerce.Interfaces;
 using System.Linq.Expressions;
+using System.Reflection;
 
 namespace eCommerce.Specifications
 {
@@ -12,6 +13,19 @@ namespace eCommerce.Specifications
         public Expression<Func<T, object>>? OrderByDescending { get; private set; }
 
         public bool IsDistinct { get; private set; }
+        public int Take { get; private set; }
+        public int Skip { get; private set; }
+        public bool IsPagingEnabled { get; private set; }
+
+        public IQueryable<T> ApplyCriteria(IQueryable<T> query)
+        {
+            if (Criteria != null)
+            {
+                query = query.Where(Criteria);
+            }
+
+            return query;
+        }
 
         protected void AddOrderBy(Expression<Func<T, object>> orderByExpression)
         {
@@ -24,6 +38,13 @@ namespace eCommerce.Specifications
         protected void ApplyDistinct()
         {
             IsDistinct = true;
+        }
+
+        protected void ApplyPaging(int skip, int take)
+        {
+            Skip = skip;
+            Take = take;
+            IsPagingEnabled = true;
         }
     }
 
