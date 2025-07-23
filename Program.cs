@@ -1,6 +1,7 @@
 
 using eCommerce.Data;
 using eCommerce.Interfaces;
+using eCommerce.Middleware;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 
@@ -19,7 +20,7 @@ namespace eCommerce
             builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
            
             var app = builder.Build();
-
+            app.UseMiddleware<ExceptionMiddleware>();
             app.MapControllers();
             try
             {
