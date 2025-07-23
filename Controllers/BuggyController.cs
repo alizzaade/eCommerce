@@ -1,4 +1,5 @@
-﻿using eCommerce.Entities;
+﻿using eCommerce.DTOs;
+using eCommerce.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace eCommerce.Controllers
@@ -30,7 +31,7 @@ namespace eCommerce.Controllers
         }
 
         [HttpPost("validationerror")]
-        public IActionResult GetValidationError(Product product)
+        public IActionResult GetValidationError(CreateProductDto product)
         {
             return Ok();
         }
