@@ -1,8 +1,8 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { Product } from '../../../shared/models/product';
-import { Pagination } from '../../../shared/models/pagination';
-import { ShopParams } from '../../../shared/models/shopParams';
+import { Product } from '../../shared/models/product';
+import { Pagination } from '../../shared/models/pagination';
+import { ShopParams } from '../../shared/models/shopParams';
 
 @Injectable({
   providedIn: 'root',
