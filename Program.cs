@@ -1,8 +1,8 @@
-
 using eCommerce.Data;
 using eCommerce.Interfaces;
 using eCommerce.Middleware;
 using Microsoft.EntityFrameworkCore;
+using StackExchange.Redis;
 using System.Threading.Tasks;
 
 namespace eCommerce
@@ -19,6 +19,14 @@ namespace eCommerce
             builder.Services.AddScoped<IProductRepository, ProductRepository>();
             builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             builder.Services.AddCors();
+            builder.Services.AddSingleton<IConnectionMultiplexer>(config =>
+            {
+                var connectionString = builder.Configuration.GetConnectionString("Redis")
+                ?? throw new Exception("Cannot get redis connection!");
+                var configuration = ConfigurationOptions.Parse(connectionString, true);
+                return ConnectionMultiplexer.Connect(configuration);
+            });
+
 
             var app = builder.Build();
             app.UseMiddleware<ExceptionMiddleware>();
