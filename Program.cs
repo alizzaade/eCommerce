@@ -1,6 +1,7 @@
 using eCommerce.Data;
 using eCommerce.Interfaces;
 using eCommerce.Middleware;
+using eCommerce.Services;
 using Microsoft.EntityFrameworkCore;
 using StackExchange.Redis;
 using System.Threading.Tasks;
@@ -26,6 +27,7 @@ namespace eCommerce
                 var configuration = ConfigurationOptions.Parse(connectionString, true);
                 return ConnectionMultiplexer.Connect(configuration);
             });
+            builder.Services.AddSingleton<ICartService, CartService>();
 
 
             var app = builder.Build();
