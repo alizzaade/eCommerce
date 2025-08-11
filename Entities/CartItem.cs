@@ -1,0 +1,13 @@
+﻿namespace eCommerce.Entities
+{
+    public class CartItem
+    {
+        public int ProductID { get; set; }
+        public required string Name { get; set; }
+        public decimal Price { get; set; }
+        public int Quantity { get; set; }
+        public required string PictureURL { get; set; }
+        public required string Brand { get; set; }
+        public required string Type { get; set; }
+    }
+}
