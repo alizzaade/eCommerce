@@ -24,10 +24,9 @@ namespace eCommerce.Controllers
         [HttpDelete]
         public async Task<ActionResult<ShoppingCart>> DeleteCartById(string id)
         {
-            var result = await cartService.DeleteCartAsync(id));
+            var result = await cartService.DeleteCartAsync(id);
             if (!result) return BadRequest("Problem deleting cart!");
             return Ok();
         }
-
     }
 }
