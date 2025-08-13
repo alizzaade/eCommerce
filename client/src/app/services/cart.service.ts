@@ -3,7 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { Cart, CartItem } from '../../shared/models/cart';
 import { Product } from '../../shared/models/product';
 import { environment } from '../../environments/environment';
-import { map } from 'rxjs';
+import { map, toArray } from 'rxjs';
+import { DialogConfig } from '@angular/cdk/dialog';
 
 @Injectable({
   providedIn: 'root',
@@ -14,6 +15,22 @@ export class CartService {
   cart = signal<Cart | null>(null);
   itemCount = computed(() => {
     return this.cart()?.items.reduce((sum, item) => sum + item.quantity, 0);
+  });
+  totals = computed(() => {
+    const cart = this.cart();
+    if (!cart) return null;
+    const subtotal = cart.items.reduce(
+      (sum, item) => sum + item.price * item.quantity,
+      0
+    );
+    const shipping = 0;
+    const discount = 0;
+    return {
+      subtotal,
+      shipping,
+      discount,
+      total: subtotal + shipping - discount,
+    };
   });
 
   getCart(id: string) {
