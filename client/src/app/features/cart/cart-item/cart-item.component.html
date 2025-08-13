@@ -10,7 +10,9 @@
     <div class="flex items-center justify-between order-3">
       <div class="flex items-center align-middle gap-3">
         <button mat-icon-button>
-          <mat-icon class="text-red-600">remove</mat-icon>
+          <mat-icon class="text-red-600" (click)="decrementQuantity()"
+            >remove</mat-icon
+          >
         </button>
 
         <div class="font-semibold text-xl mb-1">
@@ -18,7 +20,9 @@
         </div>
 
         <button mat-icon-button>
-          <mat-icon class="text-green-600">add</mat-icon>
+          <mat-icon class="text-green-600" (click)="incrementQuantity()"
+            >add</mat-icon
+          >
         </button>
       </div>
 
@@ -36,7 +40,11 @@
     </div>
 
     <div class="flex items-center gap-4">
-      <button mat-button class="text-red-700 flex gap-2 items-center">
+      <button
+        mat-button
+        class="text-red-700 flex gap-2 items-center"
+        (click)="removeItemFromCart()"
+      >
         <mat-icon>delete</mat-icon>
         <span>Delete</span>
       </button>
