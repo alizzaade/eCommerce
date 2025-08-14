@@ -1,8 +1,10 @@
 using eCommerce.Data;
+using eCommerce.Entities;
 using eCommerce.Interfaces;
 using eCommerce.Middleware;
 using eCommerce.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using StackExchange.Redis;
 using System.Threading.Tasks;
 
@@ -28,12 +30,15 @@ namespace eCommerce
                 return ConnectionMultiplexer.Connect(configuration);
             });
             builder.Services.AddSingleton<ICartService, CartService>();
-
+            builder.Services.AddAuthorization();
+            builder.Services.AddIdentityApiEndpoints<AppUser>().AddEntityFrameworkStores<StoreContext>();
 
             var app = builder.Build();
             app.UseMiddleware<ExceptionMiddleware>();
             app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:4200", "https://localhost:4200"));
             app.MapControllers();
+            app.MapIdentityApi<AppUser>();
+
             try
             {
                 using var scope = app.Services.CreateScope();

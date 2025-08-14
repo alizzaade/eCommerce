@@ -1,10 +1,11 @@
 ﻿using eCommerce.Config;
 using eCommerce.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace eCommerce.Data
 {
-    public class StoreContext(DbContextOptions options) : DbContext(options)
+    public class StoreContext(DbContextOptions options) : IdentityDbContext<AppUser>(options)
     {
         public DbSet<Product> Products { get; set; }
 
