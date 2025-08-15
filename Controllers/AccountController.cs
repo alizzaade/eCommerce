@@ -1,5 +1,6 @@
 ﻿using eCommerce.DTOs;
 using eCommerce.Entities;
+using eCommerce.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -41,9 +42,7 @@ namespace eCommerce.Controllers
         {
             if (User.Identity?.IsAuthenticated == false) return NoContent();
 
-            var user = await signInManager.UserManager.Users.FirstOrDefaultAsync
-                (x => x.Email == User.FindFirstValue(ClaimTypes.Email));
-            if (user == null) return Unauthorized();
+            var user = await signInManager.UserManager.GetUserByEmail(User);
 
             return Ok(new
             {
